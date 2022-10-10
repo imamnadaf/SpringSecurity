@@ -3,11 +3,14 @@ package com.spring.security.config;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.jdbc.datasource.DriverManagerDataSource;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.NoOpPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.springframework.web.servlet.view.InternalResourceViewResolver;
+
+import javax.sql.DataSource;
 
 @Configuration
 @EnableWebMvc
@@ -22,10 +25,20 @@ public class AppConfig {
         return resolver;
     }
 
+//    @Bean
+//    PasswordEncoder getPasswordEncoder() {
+////        return NoOpPasswordEncoder.getInstance();
+//        return new BCryptPasswordEncoder();
+//    }
+
     @Bean
-    PasswordEncoder getPasswordEncoder() {
-//        return NoOpPasswordEncoder.getInstance();
-        return new BCryptPasswordEncoder();
+    DataSource dataSource() {
+        DriverManagerDataSource  dataSource = new DriverManagerDataSource();
+        dataSource.setUrl("jdbc:mysql://127.0.0.1:3306/springsecurity");
+        dataSource.setUsername("root");
+        dataSource.setPassword("root@123");
+        dataSource.setDriverClassName("com.mysql.cj.jdbc.Driver");
+        return dataSource;
     }
 
 }
