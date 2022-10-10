@@ -33,6 +33,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         http
                 .authorizeRequests()
                 .antMatchers("/myCustomLogin").permitAll()
+                .antMatchers("/signup", "/process-signup").permitAll()
                 .anyRequest()
 //                .denyAll()
 //                .permitAll()
