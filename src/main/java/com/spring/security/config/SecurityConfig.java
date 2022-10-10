@@ -32,13 +32,15 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         http
                 .authorizeRequests()
+                .antMatchers("/myCustomLogin").permitAll()
                 .anyRequest()
 //                .denyAll()
 //                .permitAll()
                 .authenticated()
                 .and()
-                .formLogin()
+                .formLogin().loginPage("/myCustomLogin")
                 .and()
                 .httpBasic();
+
     }
 }
