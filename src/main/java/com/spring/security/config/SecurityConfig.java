@@ -18,13 +18,15 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Autowired
     DataSource dataSource;
 
-//    @Autowired
-//    PasswordEncoder passwordEncoder;
+    @Autowired
+    PasswordEncoder passwordEncoder;
 
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
         auth
-                .jdbcAuthentication().dataSource(dataSource);
+                .jdbcAuthentication()
+                .dataSource(dataSource)
+                .passwordEncoder(passwordEncoder);
 
     }
 
@@ -34,6 +36,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .authorizeRequests()
                 .antMatchers("/myCustomLogin").permitAll()
                 .antMatchers("/signup", "/process-signup").permitAll()
+                .antMatchers("/trainer").hasAuthority("Trainer")
+                .antMatchers("/coder").hasAuthority("Coder")
                 .anyRequest()
 //                .denyAll()
 //                .permitAll()

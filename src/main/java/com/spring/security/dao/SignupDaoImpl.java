@@ -12,7 +12,7 @@ public class SignupDaoImpl implements SignupDao {
     JdbcTemplate jdbcTemplate;
 
     @Override
-    public void saveUser(SignupDTO student) {
+    public void saveUser( SignupDTO student) {
         String sql = "insert into users values(?, ?, ?)";
         String sql2 = "insert into authorities values(?, ?)";
         jdbcTemplate.update(sql, student.getUsername(), student.getPassword(), 1);
