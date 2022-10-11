@@ -8,6 +8,7 @@ import org.springframework.jdbc.datasource.DriverManagerDataSource;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.NoOpPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.provisioning.JdbcUserDetailsManager;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.springframework.web.servlet.view.InternalResourceViewResolver;
 
@@ -47,6 +48,18 @@ public class AppConfig {
         JdbcTemplate jdbcTemplate = new JdbcTemplate();
         jdbcTemplate.setDataSource(dataSource);
         return jdbcTemplate;
+    }
+
+    @Bean
+    JdbcUserDetailsManager getJdbcUserDetailsManager(DataSource dataSource) {
+        JdbcUserDetailsManager manager = new JdbcUserDetailsManager();
+        manager.setDataSource(dataSource);
+        manager.setUsersByUsernameQuery(SecurityConfig.DEF_USERS_BY_USERNAME_QUERY);
+        manager.setAuthoritiesByUsernameQuery(SecurityConfig.DEF_AUTHORITIES_BY_USERNAME_QUERY);
+        manager.setChangePasswordSql("update customer set password = ? where username = ?");
+        manager.setCreateUserSql(SecurityConfig.DEF_CREATE_USER_SQL);
+        manager.setCreateAuthoritySql(SecurityConfig.DEF_INSERT_AUTHORITY_SQL);
+        return manager;
     }
 
 }

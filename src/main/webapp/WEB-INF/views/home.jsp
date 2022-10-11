@@ -20,6 +20,7 @@
         <a href="/SpringSecurity/coder"> Show Coders Dashboard</a> <br/>
     </sec:authorize>
 
+    <a href="/SpringSecurity/change-password"> Change password </a> <br/>
 
     <form:form action="logout" method="POST">
         <input type="submit" value="logout">
