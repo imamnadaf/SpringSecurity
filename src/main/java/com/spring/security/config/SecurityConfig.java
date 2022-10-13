@@ -1,5 +1,6 @@
 package com.spring.security.config;
 
+import com.spring.security.service.CustomerUserDetailsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -26,6 +27,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Autowired
     PasswordEncoder passwordEncoder;
+
+    @Autowired
+    CustomerUserDetailsService customerUserDetailsService;
 
     public static final String DEF_USERS_BY_USERNAME_QUERY = "select username,password,enabled "
             + "from customer " + "where username = ?";
@@ -65,12 +69,22 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 //                .userDetailsService(userDetailsManager);
 //    }
 
+    // For custom JdbcUserDetailsManager
+
+//    @Override
+//    protected void configure(AuthenticationManagerBuilder auth) throws Exception {
+//        auth
+//                .userDetailsService(jdbcUserDetailsManager)
+//                .passwordEncoder(passwordEncoder);
+//    }
+
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
         auth
-                .userDetailsService(jdbcUserDetailsManager)
+                .userDetailsService(customerUserDetailsService)
                 .passwordEncoder(passwordEncoder);
     }
+
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
